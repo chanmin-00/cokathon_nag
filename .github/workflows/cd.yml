@@ -78,16 +78,6 @@ jobs:
           source: ".env"
           target: "/home/ubuntu/cokathon/"
 
-      - name: Copy Dockerfile to EC2
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          port: 22
-          source: "Dockerfile"
-          target: "/home/ubuntu/cokathon/"
-
       - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
