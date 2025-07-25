@@ -22,15 +22,22 @@ import java.util.List;
 public class NagController {
     private final NagService nagService;
 
+    @GetMapping("/all")
+    @Operation(summary = "전체 잔소리 리스트 조회 API", description = "전체 잔소리를 최신순으로 불러온다.")
+    public ResponseEntity<DataResponse<List<NagListDto>>> getAllNags() {
+        List<NagListDto> nags = nagService.getNagsAllByLatest();
+        return ResponseEntity.ok(DataResponse.from(nags));
+    }
+
     @GetMapping("/{category}/latest")
-    @Operation(summary = "잔소리 최신순 리스트 API", description = "카테고리별 최신순 잔소리 리스트를 불러온다.")
+    @Operation(summary = "잔소리 최신순 리스트 조회 API", description = "카테고리별 최신순 잔소리 리스트를 불러온다.")
     public ResponseEntity<DataResponse<List<NagListDto>>> getLatestByCategory(@PathVariable Category category) {
         List<NagListDto> nags = nagService.getNagsByCategorySortedByLatest(category);
         return ResponseEntity.ok(DataResponse.from(nags));
     }
 
     @GetMapping("/{category}/popular")
-    @Operation(summary = "잔소리 인기순 리스트 API", description = "카테고리별 인기순 잔소리 리스트를 불러온다.")
+    @Operation(summary = "잔소리 인기순 리스트 조회 API", description = "카테고리별 인기순 잔소리 리스트를 불러온다.")
     public ResponseEntity<DataResponse<List<NagListDto>>> getPopularByCategory(@PathVariable Category category) {
         List<NagListDto> nags = nagService.getNagsByCategorySortedByLikes(category);
         return ResponseEntity.ok(DataResponse.from(nags));
