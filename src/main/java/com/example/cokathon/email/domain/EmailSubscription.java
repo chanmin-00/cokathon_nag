@@ -3,9 +3,12 @@ package com.example.cokathon.email.domain;
 import java.time.LocalTime;
 
 import com.example.cokathon.global.entity.BaseEntity;
+import com.example.cokathon.nag.enums.Category;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,7 +17,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Table(name = "users")
+@Table(name = "email_subscription")
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,20 +33,27 @@ public class EmailSubscription extends BaseEntity {
 	@Column(nullable = false)
 	private LocalTime sendTime;
 
-	private EmailSubscription(String email, LocalTime sendTime) {
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private Category category;
+
+	private EmailSubscription(String email, LocalTime sendTime, Category category) {
 		this.email = email;
 		this.sendTime = sendTime;
+		this.category = category;
 	}
 
-	public static EmailSubscription of(final String email, final LocalTime sendTime) {
+	public static EmailSubscription of(final String email, final LocalTime sendTime, final Category category) {
 		return new EmailSubscription(
 			email,
-			sendTime
+			sendTime,
+			category
 		);
 	}
 
-	public void updateEmailSubscription(String email, LocalTime sendTime) {
+	public void updateEmailSubscription(String email, LocalTime sendTime, Category category) {
 		this.email = email;
 		this.sendTime = sendTime;
+		this.category = category;
 	}
 }

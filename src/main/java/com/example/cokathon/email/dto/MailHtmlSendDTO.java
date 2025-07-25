@@ -2,9 +2,33 @@ package com.example.cokathon.email.dto;
 
 public record MailHtmlSendDTO(
 	String emailAddr,
-	String subject,     // 이메일 제목
-	String content,     // 이메일 내용 (잔소리 메시지 등)
-	String backgroundImageUrl, // 배경 이미지 URL
-	String logoImageUrl  // 로고 이미지 URL
+	String subject,
+	String nagText,
+	String categoryName,
+	String author,
+	String nagImageUrl,      // 배경 이미지
+	String mainLink,
+	String unsubscribeLink
 ) {
+	public static MailHtmlSendDTO of(
+		String emailAddr,
+		String subject,
+		String nagText,
+		String categoryName,
+		String author,
+		String nagImageUrl,
+		String mainLink,
+		String unsubscribeLink
+	) {
+		return new MailHtmlSendDTO(
+			emailAddr,
+			subject,
+			nagText,
+			categoryName,
+			author,
+			nagImageUrl,
+			mainLink,
+			unsubscribeLink
+		);
+	}
 }

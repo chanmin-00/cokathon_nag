@@ -13,6 +13,7 @@ import com.example.cokathon.email.dto.request.EmailUnsubscriptionRequest;
 import com.example.cokathon.email.exception.EmailSubscriptionException;
 import com.example.cokathon.email.repository.EmailSubscriptionRepository;
 import com.example.cokathon.email.service.EmailSubscriptionService;
+import com.example.cokathon.nag.enums.Category;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,16 +31,17 @@ public class EmailSubscriptionServiceImpl implements EmailSubscriptionService {
 	public void addEmailSubscription(EmailSubscriptionRequest request) {
 		String email = request.email();
 		LocalTime sendTime = request.sendTime();
+		Category category = request.category();
 
 		EmailSubscription emailSubscription = emailSubscriptionRepository.findByEmail(request.email())
 			.map(existingSubscription -> {
 				// 이미 구독 중인 경우 업데이트
-				existingSubscription.updateEmailSubscription(email, sendTime);
+				existingSubscription.updateEmailSubscription(email, sendTime, category);
 				return existingSubscription;
 			})
 			.orElseGet(() -> {
 				// 구독이 없는 경우 새로 생성
-				return EmailSubscription.of(email, sendTime);
+				return EmailSubscription.of(email, sendTime, category);
 			});
 
 		emailSubscriptionRepository.save(emailSubscription);
