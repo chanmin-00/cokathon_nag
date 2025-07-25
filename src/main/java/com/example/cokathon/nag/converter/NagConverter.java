@@ -23,7 +23,7 @@ public class NagConverter {
 
     public static Nag toNag(NagCreateRequest request) {
         return Nag.builder()
-                .category(request.category())
+                .categories(request.categories())
                 .imageUrl(request.imageUrl())
                 .text(request.text())
                 .likes(0)

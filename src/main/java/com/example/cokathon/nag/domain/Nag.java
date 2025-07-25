@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,9 +19,11 @@ public class Nag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ElementCollection(targetClass = Category.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "nag_categories", joinColumns = @JoinColumn(name = "nag_id"))
+    @Column(name = "category")
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Category category;
+    private List<Category> categories = new ArrayList<>();
 
     @Column(nullable = false)
     private String imageUrl;

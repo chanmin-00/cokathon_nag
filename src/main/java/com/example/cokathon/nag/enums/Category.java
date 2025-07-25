@@ -5,5 +5,6 @@ public enum Category {
     STUDY,
     WORK,
     RELATIONSHIP,
+    FOOD,
     ETC
 }
