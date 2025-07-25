@@ -26,7 +26,7 @@ public class Nag {
     private List<Category> categories = new ArrayList<>();
 
     @Column(nullable = false)
-    private String imageUrl;
+    private long imageUrl;
 
     @Column(nullable = false)
     private String faceImageUrl;
