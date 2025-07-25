@@ -99,8 +99,10 @@ public class EmailSenderImpl implements EmailSender {
 		}
 	}
 
-	private String getImageUrl(Map<Integer, String> map, Number key, String defaultUrl) {
-		return map.getOrDefault(key.intValue(), defaultUrl);
+	private String getImageUrl(Map<Integer, String> map, String key, String defaultUrl) {
+		Number intValue = key != null ? Integer.parseInt(key) : null;
+
+		return map.getOrDefault(intValue, defaultUrl);
 	}
 
 	private MailHtmlSendDTO buildMailDto(EmailSubscription sub, Nag nag, String nagImageUrl, String faceImageUrl) {
