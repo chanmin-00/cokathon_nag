@@ -21,7 +21,7 @@ public record NagListDto(
         long imageUrl,
 
         @Schema(description = "얼굴 이미지 URL")
-        String faceImageUrl,
+        long faceImageUrl,
 
         @Schema(description = "좋아요 수")
         int likes,
