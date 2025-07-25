@@ -9,4 +9,5 @@ import com.example.cokathon.image.domain.Image;
 public interface ImageRepository extends JpaRepository<Image, Long> {
 
 	List<Image> findAllByS3InfoFolderName(String folderName);
+
 }
