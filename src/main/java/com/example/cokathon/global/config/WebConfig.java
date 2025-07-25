@@ -10,8 +10,9 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**")
-			.allowedOriginPatterns("*")
+			.allowedOrigins("https://cokathon.r-e.kr") // 정확한 출처 명시
 			.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-			.allowCredentials(true);
+			.allowCredentials(true)
+			.allowedHeaders("*");
 	}
 }
