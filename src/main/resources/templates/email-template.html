@@ -32,6 +32,12 @@
           width: fit-content;
           text-align: center;
           margin: auto;">
+        <img th:src="${faceImageUrl}" alt="face" style="
+          width: 60px;
+          height: 60px;
+          object-fit: cover;
+          margin-bottom: 80px;
+        "/>
       <p style="font-size: 17px; font-weight: bold; line-height: 1.6; margin: 0;" th:utext="${nagText}"></p>
         <p style="margin-top: 14px; font-size: 14px;">– From. [[${author}]]</p>
       </div>
