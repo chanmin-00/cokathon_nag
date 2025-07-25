@@ -7,6 +7,7 @@ public record MailHtmlSendDTO(
 	String categoryName,
 	String author,
 	String nagImageUrl,      // 배경 이미지
+	String faceImageUrl,      // 얼굴 이미지
 	String mainLink,
 	String unsubscribeLink
 ) {
@@ -17,6 +18,7 @@ public record MailHtmlSendDTO(
 		String categoryName,
 		String author,
 		String nagImageUrl,
+		String faceImageUrl,
 		String mainLink,
 		String unsubscribeLink
 	) {
@@ -27,6 +29,7 @@ public record MailHtmlSendDTO(
 			categoryName,
 			author,
 			nagImageUrl,
+			faceImageUrl,
 			mainLink,
 			unsubscribeLink
 		);

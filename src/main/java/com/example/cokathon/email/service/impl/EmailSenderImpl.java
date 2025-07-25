@@ -61,6 +61,7 @@ public class EmailSenderImpl implements EmailSender {
 					sub.getCategory().name(),
 					nag.getName(),
 					nag.getImageUrl(),
+					nag.getFaceImageUrl(),
 					"https://ttok.today",
 					"https://ttok.today/unsubscribe?email=" + sub.getEmail()
 				);
@@ -88,6 +89,7 @@ public class EmailSenderImpl implements EmailSender {
 			context.setVariable("categoryName", dto.categoryName());
 			context.setVariable("author", dto.author());
 			context.setVariable("nagImageUrl", dto.nagImageUrl());
+			context.setVariable("faceImageUrl", dto.faceImageUrl());
 			context.setVariable("mainLink", dto.mainLink());
 			context.setVariable("unsubscribeLink", dto.unsubscribeLink());
 

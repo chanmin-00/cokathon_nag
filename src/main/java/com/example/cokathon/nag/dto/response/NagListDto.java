@@ -20,6 +20,9 @@ public record NagListDto(
         @Schema(description = "이미지 URL")
         String imageUrl,
 
+        @Schema(description = "얼굴 이미지 URL")
+        String faceImageUrl,
+
         @Schema(description = "좋아요 수")
         int likes,
 

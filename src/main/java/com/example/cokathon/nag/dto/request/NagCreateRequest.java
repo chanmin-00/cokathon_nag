@@ -20,6 +20,10 @@ public record NagCreateRequest(
         String imageUrl,
 
         @NotBlank
+        @Schema(description = "얼굴 이미지 URL", example = "https://example.com/face_image.jpg")
+        String faceImageUrl,
+
+        @NotBlank
         @Schema(description = "텍스트 내용", example = "하이")
         String text,
 
