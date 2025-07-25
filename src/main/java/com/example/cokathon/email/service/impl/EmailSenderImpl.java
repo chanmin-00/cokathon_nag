@@ -48,8 +48,7 @@ public class EmailSenderImpl implements EmailSender {
 		Map.entry(3, "https://cokathon.s3.ap-northeast-2.amazonaws.com/frame4-1.png"),
 		Map.entry(4, "https://cokathon.s3.ap-northeast-2.amazonaws.com/frame1-1.png"),
 		Map.entry(5, "https://cokathon.s3.ap-northeast-2.amazonaws.com/frame2-1.png"),
-		Map.entry(6, "https://cokathon.s3.ap-northeast-2.amazonaws.com/frame7-1.png"),
-		Map.entry(7, "https://cokathon.s3.ap-northeast-2.amazonaws.com/frame6-1.png")
+		Map.entry(6, "https://cokathon.s3.ap-northeast-2.amazonaws.com/frame7-1.png")
 	);
 
 	private static final Map<Integer, String> FACE_IMAGE_URLS = Map.ofEntries(
