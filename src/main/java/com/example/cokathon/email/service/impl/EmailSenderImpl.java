@@ -87,7 +87,7 @@ public class EmailSenderImpl implements EmailSender {
 			context.setVariable("nagText", dto.nagText());
 			context.setVariable("categoryName", dto.categoryName());
 			context.setVariable("author", dto.author());
-			context.setVariable("nagImageUrl", "/image/ripple.png");
+			context.setVariable("nagImageUrl", dto.nagImageUrl());
 			context.setVariable("mainLink", dto.mainLink());
 			context.setVariable("unsubscribeLink", dto.unsubscribeLink());
 

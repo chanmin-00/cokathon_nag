@@ -13,25 +13,30 @@
     <p style="margin: 0 0 16px;">👋 <strong>오늘 당신에게 도착한 한 마디입니다.</strong></p>
 
     <!-- ✅ 조언 이미지 영역 -->
-    <div style="
-        position: relative;
-        width: 400px;
-        height: 540px;
-        background-image: url([[${nagImageUrl}]]);
-        background-size: cover;
-        background-position: center;
-        margin: 10px auto;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 30px;
-    ">
-      <div style="background: rgba(0,0,0,0.5); padding: 16px 20px; border-radius: 8px;">
-        <p style="font-size: 15px; font-weight: bold; line-height: 1.6; margin: 0;" th:utext="${nagText}"></p>
+    <div th:style="|background-image: url('${nagImageUrl}');
+                background-size: cover;
+                background-position: center;
+                position: relative;
+                width: 400px;
+                height: 540px;
+                margin: 10px auto;
+                color: white;
+                display: flex;
+                border-radius: 7%;
+                align-items: center;
+                justify-content: center;
+                padding: 30px;|">
+      <div style="
+          padding: 16px 20px;
+          border-radius: 8px;
+          width: fit-content;
+          text-align: center;
+          margin: auto;">
+      <p style="font-size: 17px; font-weight: bold; line-height: 1.6; margin: 0;" th:utext="${nagText}"></p>
         <p style="margin-top: 14px; font-size: 14px;">– From. [[${author}]]</p>
       </div>
     </div>
+
 
     <hr style="width: 80%; border: none; border-top: 1px solid #ccc; margin: 20px auto;">
 
