@@ -12,7 +12,7 @@ import java.util.List;
 public record NagCreateRequest(
 
         @NotNull
-        @Schema(description = "카테고리 목록", example = "[\"FOOD\", \"WORK\"]")
+        @Schema(description = "카테고리 목록", example = "[\"자취\", \"직장\"]")
         List<Category> categories,
 
         @NotBlank
