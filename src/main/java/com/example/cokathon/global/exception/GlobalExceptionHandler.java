@@ -3,6 +3,7 @@ package com.example.cokathon.global.exception;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.cokathon.nag.exception.NagException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -40,6 +41,15 @@ public class GlobalExceptionHandler {
 		return ResponseEntity
 			.status(e.getHttpStatus())
 			.body(ErrorResponse.of(e.getHttpStatus(), e.getMessage(), e.getCode()));
+	}
+
+	@ExceptionHandler(NagException.class)
+	public ResponseEntity<Object> handleNagException(NagException e) {
+		log.error("NagException: {}", e.getMessage(), e);
+
+		return ResponseEntity
+				.status(e.getHttpStatus())
+				.body(ErrorResponse.of(e.getHttpStatus(), e.getMessage(), e.getCode()));
 	}
 
 	@ExceptionHandler(UserException.class)
