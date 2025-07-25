@@ -109,7 +109,7 @@ public class EmailSenderImpl implements EmailSender {
 
 	// 카테고리에 해당하는 잔소리 메시지를 랜덤으로 선택
 	private Nag pickRandomNag(Category category) {
-		List<Nag> nagList = nagRepository.findRandomByCategory(category, PageRequest.of(0, 1));
+		List<Nag> nagList = nagRepository.findRandomByCategory(category.name(), PageRequest.of(0, 1));
 		return nagList.isEmpty() ? null : nagList.get(0);
 	}
 }
