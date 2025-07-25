@@ -22,6 +22,14 @@ import static com.example.cokathon.nag.exception.NagErrorCode.NAG_NOT_FOUND;
 public class NagService {
     private final NagRepository nagRepository;
 
+    // 전체 조회
+    public List<NagListDto> getNagsAllByLatest() {
+        List<Nag> nags = nagRepository.findAllByOrderByCreatedDateDesc();
+        return nags.stream()
+                .map(NagConverter::toNagListDto)
+                .collect(Collectors.toList());
+    }
+
     // 최신순
     public List<NagListDto> getNagsByCategorySortedByLatest(Category category) {
         List<Nag> nags = nagRepository.findByCategoryOrderByCreatedDateDesc(category);

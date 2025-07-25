@@ -18,4 +18,6 @@ public interface NagRepository extends JpaRepository<Nag, Long> {
     List<Nag> findByCategoryOrderByCreatedDateDesc(@Param("category") Category category);
 
     Optional<Nag> findById(Long id);
+
+    List<Nag> findAllByOrderByCreatedDateDesc();
 }
