@@ -17,7 +17,7 @@ public record NagCreateRequest(
 
         @NotBlank
         @Schema(description = "이미지 URL", example = "https://example.com/image.jpg")
-        String imageUrl,
+        long imageUrl,
 
         @NotBlank
         @Schema(description = "얼굴 이미지 URL", example = "https://example.com/face_image.jpg")
