@@ -9,7 +9,8 @@ public record MailHtmlSendDTO(
 	String nagImageUrl,      // 배경 이미지
 	String faceImageUrl,      // 얼굴 이미지
 	String mainLink,
-	String unsubscribeLink
+	String unsubscribeLink,
+	String textColor
 ) {
 	public static MailHtmlSendDTO of(
 		String emailAddr,
@@ -20,7 +21,8 @@ public record MailHtmlSendDTO(
 		String nagImageUrl,
 		String faceImageUrl,
 		String mainLink,
-		String unsubscribeLink
+		String unsubscribeLink,
+		String textColor
 	) {
 		return new MailHtmlSendDTO(
 			emailAddr,
@@ -31,7 +33,8 @@ public record MailHtmlSendDTO(
 			nagImageUrl,
 			faceImageUrl,
 			mainLink,
-			unsubscribeLink
+			unsubscribeLink,
+				textColor
 		);
 	}
 }

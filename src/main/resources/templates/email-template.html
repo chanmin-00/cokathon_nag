@@ -38,8 +38,12 @@
           object-fit: cover;
           margin-bottom: 80px;
         "/>
-      <p style="font-size: 17px; font-weight: bold; line-height: 1.6; margin: 0;" th:utext="${nagText}"></p>
-        <p style="margin-top: 14px; font-size: 14px;">– From. [[${author}]]</p>
+        <p style="font-size: 17px; font-weight: bold; line-height: 1.6; margin: 0;"
+           th:utext="${nagText}"
+           th:style="'color: ' + ${textColor} + ';'" />
+        <p style="margin-top: 14px; font-size: 14px;"
+           th:style="'color: ' + ${textColor} + ';'">– From. [[${author}]]</p>
+
       </div>
     </div>
 
