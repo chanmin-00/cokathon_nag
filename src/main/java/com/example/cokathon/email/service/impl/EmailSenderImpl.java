@@ -35,7 +35,7 @@ public class EmailSenderImpl implements EmailSender {
 
 	private static final String MAIN_LINK = "https://ttok.today";
 	private static final String DEFAULT_IMAGE = "https://cokathon.s3.ap-northeast-2.amazonaws.com/frame5-1.png";
-	private static final String DEFAULT_FACE_IMAGE = "https://example.com/default_face_image.jpg";
+	private static final String DEFAULT_FACE_IMAGE = "https://cokathon.s3.ap-northeast-2.amazonaws.com/%E1%84%90%E1%85%AE%E1%86%A8+%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB-03.png";
 
 	private final JavaMailSender javaMailSender;
 	private final TemplateEngine templateEngine;
@@ -99,8 +99,10 @@ public class EmailSenderImpl implements EmailSender {
 		}
 	}
 
-	private String getImageUrl(Map<Integer, String> map, Number key, String defaultUrl) {
-		return map.getOrDefault(key.intValue(), defaultUrl);
+	private String getImageUrl(Map<Integer, String> map, String key, String defaultUrl) {
+		Number intValue = key != null ? Integer.parseInt(key) : null;
+
+		return map.getOrDefault(intValue, defaultUrl);
 	}
 
 	private MailHtmlSendDTO buildMailDto(EmailSubscription sub, Nag nag, String nagImageUrl, String faceImageUrl) {

@@ -26,10 +26,10 @@ public class Nag {
     private List<Category> categories = new ArrayList<>();
 
     @Column(nullable = false)
-    private long imageUrl;
+    private String imageUrl;
 
     @Column(nullable = false)
-    private long faceImageUrl;
+    private String faceImageUrl;
 
     @Column(nullable = false, length = 100)
     private String name;
