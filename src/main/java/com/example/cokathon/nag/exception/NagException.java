@@ -1,6 +1,5 @@
 package com.example.cokathon.nag.exception;
 
-import com.example.cokathon.image.exception.ImageErrorCode;
 import org.springframework.http.HttpStatus;
 
 import lombok.Getter;

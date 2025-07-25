@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.example.cokathon.email.dto.request.EmailSubscriptionRequest;
 import com.example.cokathon.email.dto.request.EmailUnsubscriptionRequest;
 import com.example.cokathon.email.service.EmailSubscriptionService;
