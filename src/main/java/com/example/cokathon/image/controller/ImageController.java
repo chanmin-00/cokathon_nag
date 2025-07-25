@@ -38,7 +38,7 @@ public class ImageController {
 		return ResponseEntity.ok(DataResponse.ok());
 	}
 
-	@PostMapping("/face")
+	@PostMapping(path = "/face", consumes = "multipart/form-data")
 	public ResponseEntity<DataResponse<ImageIdResponse>> addFaceImage(
 		final @RequestParam MultipartFile file) {
 
