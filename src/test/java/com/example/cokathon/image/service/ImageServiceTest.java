@@ -57,7 +57,7 @@ class ImageServiceTest {
 		when(imageRepository.save(any(Image.class))).thenReturn(image);
 
 		// when
-		ImageIdResponse result = imageService.addImageToTemp(mockFile);
+		ImageIdResponse result = imageService.addImage(mockFile);
 
 		// then
 		assertThat(result).isNotNull();
