@@ -14,6 +14,9 @@ public record NagListDto(
         @Schema(description = "내용")
         String text,
 
+        @Schema(description = "작성자 이름")
+        String name,
+
         @Schema(description = "이미지 URL")
         String imageUrl,
 

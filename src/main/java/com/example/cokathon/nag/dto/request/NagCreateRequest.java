@@ -20,7 +20,10 @@ public record NagCreateRequest(
         String imageUrl,
 
         @NotBlank
-        //@Size(max = 500)
         @Schema(description = "텍스트 내용", example = "하이")
-        String text
+        String text,
+
+        @NotBlank
+        @Schema(description = "작성자 이름", example = "홍길동")
+        String name
 ) {}

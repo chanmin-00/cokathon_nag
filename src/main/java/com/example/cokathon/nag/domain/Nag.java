@@ -28,6 +28,9 @@ public class Nag {
     @Column(nullable = false)
     private String imageUrl;
 
+    @Column(nullable = false, length = 100)
+    private String name;
+
     @Column(nullable = false, length = 500)
     private String text;
 
