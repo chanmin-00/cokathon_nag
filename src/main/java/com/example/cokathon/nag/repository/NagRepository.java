@@ -23,4 +23,6 @@ public interface NagRepository extends JpaRepository<Nag, Long> {
 
 	@Query("SELECT n FROM Nag n JOIN n.categories c WHERE c = :category ORDER BY function('RAND')")
 	List<Nag> findRandomByCategory(@Param("category") Category category, Pageable pageable);
+
+  List<Nag> findAllByOrderByCreatedDateDesc();
 }
