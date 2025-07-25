@@ -29,7 +29,7 @@ public class Nag {
     private long imageUrl;
 
     @Column(nullable = false)
-    private String faceImageUrl;
+    private long faceImageUrl;
 
     @Column(nullable = false, length = 100)
     private String name;
