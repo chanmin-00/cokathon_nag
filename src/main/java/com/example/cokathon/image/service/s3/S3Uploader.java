@@ -52,8 +52,7 @@ public class S3Uploader {
 		String fileName = buildFilePath(folderName, file.getName());
 
 		// S3 업로드
-		PutObjectRequest request = new PutObjectRequest(bucket, fileName, file)
-			.withCannedAcl(CannedAccessControlList.PublicRead);
+		PutObjectRequest request = new PutObjectRequest(bucket, fileName, file);
 		amazonS3.putObject(request);
 
 		// 업로드된 URL 획득
