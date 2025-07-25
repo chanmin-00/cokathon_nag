@@ -46,7 +46,7 @@ class ImageControllerTest {
 		MockMultipartFile mockFile = new MockMultipartFile("file", "test.png", "image/png", "hello".getBytes());
 		ImageIdResponse mockResponse = ImageIdResponse.from(1L);
 
-		when(imageService.addImageToTemp(any())).thenReturn(mockResponse);
+		when(imageService.addImage(any())).thenReturn(mockResponse);
 
 		// when & then
 		mockMvc.perform(multipart("/api/v1/image")
@@ -62,7 +62,7 @@ class ImageControllerTest {
 		// given
 		MockMultipartFile mockFile = new MockMultipartFile("file", "bad.png", "image/png", "corrupted".getBytes());
 
-		when(imageService.addImageToTemp(any()))
+		when(imageService.addImage(any()))
 			.thenThrow(ImageException.from(ImageErrorCode.IMAGE_PROCESSING_FAIL));
 
 		// when & then
