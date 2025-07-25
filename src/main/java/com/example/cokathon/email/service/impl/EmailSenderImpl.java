@@ -73,6 +73,17 @@ public class EmailSenderImpl implements EmailSender {
 			"https://cokathon.s3.ap-northeast-2.amazonaws.com/%E1%84%90%E1%85%AE%E1%86%A8+%E1%84%8B%E1%85%B5%E1%84%86%E1%85%A9%E1%84%90%E1%85%B5%E1%84%8F%E1%85%A9%E1%86%AB-11.png")
 	);
 
+	private String getTextColorByNagImageKey(String key) {
+		if (key == null) return "#FFFFFF";
+		try {
+			int value = Integer.parseInt(key);
+			return (value == 1 || value == 5 || value == 7) ? "#000000" : "#FFFFFF";
+		} catch (NumberFormatException e) {
+			return "#FFFFFF";
+		}
+	}
+
+
 	@Override
 	@Scheduled(cron = "0 * * * * *") // 매 분 실행
 	public void sendScheduledEmails() {
@@ -89,8 +100,9 @@ public class EmailSenderImpl implements EmailSender {
 
 				String nagImageUrl = getImageUrl(NAG_IMAGE_URLS, nag.getImageUrl(), DEFAULT_IMAGE);
 				String faceImageUrl = getImageUrl(FACE_IMAGE_URLS, nag.getFaceImageUrl(), DEFAULT_FACE_IMAGE);
+				String textColor = getTextColorByNagImageKey(nag.getImageUrl());
 
-				MailHtmlSendDTO dto = buildMailDto(sub, nag, nagImageUrl, faceImageUrl);
+				MailHtmlSendDTO dto = buildMailDto(sub, nag, nagImageUrl, faceImageUrl, textColor);
 				sendHtmlEmail(dto);
 
 			} catch (Exception e) {
@@ -105,7 +117,7 @@ public class EmailSenderImpl implements EmailSender {
 		return map.getOrDefault(intValue, defaultUrl);
 	}
 
-	private MailHtmlSendDTO buildMailDto(EmailSubscription sub, Nag nag, String nagImageUrl, String faceImageUrl) {
+	private MailHtmlSendDTO buildMailDto(EmailSubscription sub, Nag nag, String nagImageUrl, String faceImageUrl, String textColor) {
 		return MailHtmlSendDTO.of(
 			sub.getEmail(),
 			"[툭] " + sub.getCategory().name() + "에 대한 한마디, 오늘 당신에게",
@@ -114,6 +126,7 @@ public class EmailSenderImpl implements EmailSender {
 			nag.getName(),
 			nagImageUrl,
 			faceImageUrl,
+			textColor,
 			MAIN_LINK,
 			MAIN_LINK + "/unsubscribe?email=" + sub.getEmail()
 		);
@@ -136,6 +149,7 @@ public class EmailSenderImpl implements EmailSender {
 			context.setVariable("faceImageUrl", dto.faceImageUrl());
 			context.setVariable("mainLink", dto.mainLink());
 			context.setVariable("unsubscribeLink", dto.unsubscribeLink());
+			context.setVariable("textColor", dto.textColor());
 
 			String htmlContent = templateEngine.process("email-template", context);
 			helper.setText(htmlContent, true);
