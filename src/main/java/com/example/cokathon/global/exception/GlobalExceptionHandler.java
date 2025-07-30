@@ -34,6 +34,15 @@ public class GlobalExceptionHandler {
 			.body(ErrorResponse.of(GlobalErrorCode.INVALID_PARAMETER, errors));
 	}
 
+	@ExceptionHandler(GlobalException.class)
+	public ResponseEntity<Object> handleGlobalException(GlobalException e) {
+		log.error("GlobalException: {}", e.getMessage(), e);
+
+		return ResponseEntity
+			.status(e.getHttpStatus())
+			.body(ErrorResponse.of(e.getHttpStatus(), e.getMessage(), e.getCode()));
+	}
+
 	@ExceptionHandler(ImageException.class)
 	public ResponseEntity<Object> handleImageException(ImageException e) {
 		log.error("ImageException: {}", e.getMessage(), e);

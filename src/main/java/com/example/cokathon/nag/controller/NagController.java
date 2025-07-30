@@ -1,6 +1,7 @@
 package com.example.cokathon.nag.controller;
 
 import com.example.cokathon.global.dto.DataResponse;
+import com.example.cokathon.global.ratelimit.RateLimit;
 import com.example.cokathon.nag.dto.request.NagCreateRequest;
 import com.example.cokathon.nag.dto.response.NagListDto;
 import com.example.cokathon.nag.dto.response.ReportResponseDto;
@@ -52,6 +53,7 @@ public class NagController {
 
     @PostMapping
     @Operation(summary = "잔소리 생성 API", description = "새로운 잔소리를 등록한다.")
+    @RateLimit(maxRequests = 5, timeWindowSeconds = 300, keyType = "IP")
     public ResponseEntity<DataResponse<NagListDto>> createNag(@Valid @RequestBody NagCreateRequest request) {
         NagListDto createdNag = nagService.createNag(request);
         return ResponseEntity.ok(DataResponse.from(createdNag));

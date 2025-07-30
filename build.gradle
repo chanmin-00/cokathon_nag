@@ -31,6 +31,13 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    
+    // Test containers for Redis integration tests
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:testcontainers'
+    
+    // H2 for tests
+    testImplementation 'com.h2database:h2'
 
     // MySQL
     runtimeOnly 'com.mysql:mysql-connector-j'
@@ -60,6 +67,9 @@ dependencies {
 
     // Swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+
+    // AOP for rate limiting
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 
     // serialization
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
