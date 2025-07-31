@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프리미어리그 일정 구독</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #38003c 0%, #00ff87 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #38003c;
+            box-shadow: 0 0 0 3px rgba(56, 0, 60, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #38003c, #00ff87);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(56, 0, 60, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #6c757d;
+            border: 2px solid #e9ecef;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+            border-color: #dee2e6;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #38003c;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .back-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 25px;
+            padding: 10px 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            padding: 5px 15px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: #38003c;
+            background: #f0f8f0;
+        }
+
+        .nav-item:hover {
+            color: #38003c;
+            background: #f8f9fa;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+
+        .nav-text {
+            font-size: 11px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚽ 프리미어리그 뉴스 구독</h1>
+            <p>매일 프리미어리그 뉴스와 경기 정보를 이메일로 받아보세요</p>
+        </div>
+
+        <form id="subscriptionForm">
+            <div class="form-group">
+                <label for="email">이메일 주소</label>
+                <input type="email" id="email" name="email" required placeholder="example@email.com">
+            </div>
+
+            <div class="form-group">
+                <label for="sendTime">발송 시간</label>
+                <input type="time" id="sendTime" name="sendTime" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">알림 유형</label>
+                <select id="category" name="category" required>
+                    <option value="">알림 유형을 선택하세요</option>
+                    <optgroup label="뉴스 알림">
+                        <option value="daily_news">매일 뉴스 요약</option>
+                        <option value="breaking_news">속보 알림</option>
+                        <option value="popular_news">인기 뉴스</option>
+                    </optgroup>
+                    <optgroup label="경기 알림">
+                        <option value="match_schedule">경기 일정</option>
+                        <option value="match_results">경기 결과</option>
+                        <option value="live_scores">실시간 스코어</option>
+                    </optgroup>
+                    <optgroup label="순위 알림">
+                        <option value="standings_update">순위표 업데이트</option>
+                        <option value="weekly_summary">주간 리그 요약</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary" id="subscribeBtn">구독하기</button>
+                <button type="button" class="btn btn-secondary" id="unsubscribeBtn">구독해지</button>
+            </div>
+        </form>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>처리 중...</p>
+        </div>
+
+        <div id="message" class="message" style="display: none;"></div>
+    </div>
+
+    <div class="back-nav">
+        <a href="/" class="nav-item">
+            <div class="nav-icon">📰</div>
+            <div class="nav-text">뉴스</div>
+        </a>
+        <a href="/subscription" class="nav-item active">
+            <div class="nav-icon">📧</div>
+            <div class="nav-text">구독</div>
+        </a>
+    </div>
+
+    <script>
+        const API_BASE_URL = '/email';
+        
+        const form = document.getElementById('subscriptionForm');
+        const subscribeBtn = document.getElementById('subscribeBtn');
+        const unsubscribeBtn = document.getElementById('unsubscribeBtn');
+        const loading = document.getElementById('loading');
+        const message = document.getElementById('message');
+
+        function showLoading() {
+            loading.style.display = 'block';
+            subscribeBtn.disabled = true;
+            unsubscribeBtn.disabled = true;
+        }
+
+        function hideLoading() {
+            loading.style.display = 'none';
+            subscribeBtn.disabled = false;
+            unsubscribeBtn.disabled = false;
+        }
+
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = `message ${type}`;
+            message.style.display = 'block';
+            
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 5000);
+        }
+
+        async function subscribe(email, sendTime, category) {
+            const response = await fetch(`${API_BASE_URL}/subscribe`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    sendTime: sendTime,
+                    category: category
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || '구독 처리 중 오류가 발생했습니다.');
+            }
+
+            return await response.json();
+        }
+
+        async function unsubscribe(email) {
+            const response = await fetch(`${API_BASE_URL}/unsubscribe`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || '구독해지 처리 중 오류가 발생했습니다.');
+            }
+
+            return await response.json();
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const sendTime = document.getElementById('sendTime').value;
+            const category = document.getElementById('category').value;
+
+            if (!email || !sendTime || !category) {
+                showMessage('모든 필드를 입력해주세요.', 'error');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                await subscribe(email, sendTime, category);
+                showMessage('프리미어리그 뉴스 구독이 완료되었습니다! 매일 설정한 시간에 이메일을 받아보실 수 있습니다.', 'success');
+                form.reset();
+            } catch (error) {
+                showMessage(error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        });
+
+        unsubscribeBtn.addEventListener('click', async () => {
+            const email = document.getElementById('email').value;
+
+            if (!email) {
+                showMessage('이메일 주소를 입력해주세요.', 'error');
+                return;
+            }
+
+            if (!confirm('정말로 프리미어리그 뉴스 구독을 해지하시겠습니까?')) {
+                return;
+            }
+
+            showLoading();
+
+            try {
+                await unsubscribe(email);
+                showMessage('프리미어리그 뉴스 구독해지가 완료되었습니다.', 'success');
+                form.reset();
+            } catch (error) {
+                showMessage(error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        });
+
+        document.getElementById('sendTime').value = '09:00';
+    </script>
+</body>
+</html>

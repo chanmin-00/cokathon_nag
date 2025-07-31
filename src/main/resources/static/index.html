@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premier League News</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            padding-bottom: 80px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #38003c 0%, #00ff87 100%);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .filter-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+        }
+
+        .search-btn {
+            padding: 12px 20px;
+            background: #38003c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: #2d0030;
+        }
+
+        .sort-tabs {
+            display: flex;
+            gap: 5px;
+        }
+
+        .sort-tab {
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .sort-tab.active {
+            background: #38003c;
+            color: white;
+        }
+
+        .sort-tab:hover {
+            background: #e9ecef;
+        }
+
+        .sort-tab.active:hover {
+            background: #2d0030;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #38003c, #00ff87);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .news-summary {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .news-date {
+            background: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #38003c;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e1e5e9;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 15px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #666;
+            padding: 5px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active {
+            color: #38003c;
+            background: #f0f8f0;
+        }
+
+        .nav-item:hover {
+            color: #38003c;
+            background: #f8f9fa;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .nav-text {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .no-results h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-group {
+                flex-direction: column;
+            }
+            
+            .sort-tabs {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚽ Premier League News</h1>
+        <p>최신 프리미어리그 뉴스와 경기 일정을 확인하세요</p>
+    </div>
+
+    <div class="container">
+        <div class="filter-section">
+            <div class="search-group">
+                <input type="text" id="searchInput" class="search-input" placeholder="프리미어리그 뉴스 검색...">
+                <button id="searchBtn" class="search-btn">검색</button>
+            </div>
+            <div class="sort-tabs">
+                <button class="sort-tab active" data-sort="latest">최신순</button>
+                <button class="sort-tab" data-sort="popular">인기순</button>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>뉴스를 불러오는 중...</p>
+        </div>
+
+        <div class="news-grid" id="newsGrid" style="display: none;">
+        </div>
+
+        <div class="no-results" id="noResults" style="display: none;">
+            <h3>검색 결과가 없습니다</h3>
+            <p>다른 검색어나 필터를 시도해보세요.</p>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <a href="/" class="nav-item active">
+            <div class="nav-icon">📰</div>
+            <div class="nav-text">뉴스</div>
+        </a>
+        <a href="/standings" class="nav-item">
+            <div class="nav-icon">🏆</div>
+            <div class="nav-text">순위</div>
+        </a>
+        <a href="/subscription" class="nav-item">
+            <div class="nav-icon">📧</div>
+            <div class="nav-text">구독</div>
+        </a>
+    </div>
+
+    <script>
+        let allNews = [];
+        let filteredNews = [];
+
+        const API_BASE_URL = '/api/news';
+        
+        const loading = document.getElementById('loading');
+        const newsGrid = document.getElementById('newsGrid');
+        const noResults = document.getElementById('noResults');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const sortTabs = document.querySelectorAll('.sort-tab');
+        
+        let currentSort = 'latest';
+        let currentSearch = '';
+
+        // 샘플 데이터 (네이버 뉴스 크롤링 기반)
+        const sampleNews = [
+            {
+                id: 1,
+                title: "손흥민, 프리미어리그 이번 시즌 10골 달성",
+                summary: "토트넘의 손흥민이 프리미어리그에서 이번 시즌 10번째 골을 기록하며 한국 축구의 위상을 높였다.",
+                date: "2024-01-15T10:30:00",
+                viewCount: 15420,
+                source: "스포츠조선",
+                originalUrl: "https://m.sports.naver.com/wfootball/article/343/0000134285"
+            },
+            {
+                id: 2,
+                title: "맨시티, 리버풀과의 빅매치에서 2-1 승리",
+                summary: "맨체스터 시티가 안필드에서 열린 리버풀과의 경기에서 극적인 2-1 승리를 거두며 리그 선두를 유지했다.",
+                date: "2024-01-14T18:45:00",
+                viewCount: 23567,
+                source: "연합뉴스",
+                originalUrl: "https://m.sports.naver.com/wfootball/article/001/0014892134"
+            },
+            {
+                id: 3,
+                title: "아스날, 겨울 이적시장에서 미드필더 영입 추진",
+                summary: "아스날이 팀 전력 보강을 위해 유럽 리그에서 활약 중인 미드필더 영입을 적극 검토하고 있다.",
+                date: "2024-01-13T14:20:00",
+                viewCount: 8934,
+                source: "OSEN",
+                originalUrl: "https://m.sports.naver.com/wfootball/article/109/0004983456"
+            },
+            {
+                id: 4,
+                title: "첼시 감독 교체설 부상, 클럽 측은 부인",
+                summary: "첼시의 부진한 성적으로 인한 감독 교체설이 제기되고 있지만, 클럽 측은 현 감독에 대한 신뢰를 표명했다.",
+                date: "2024-01-12T16:15:00",
+                viewCount: 12678,
+                source: "스포츠서울",
+                originalUrl: "https://m.sports.naver.com/wfootball/article/073/0003896234"
+            },
+            {
+                id: 5,
+                title: "뉴캐슬, 사우디 자본으로 대형 영입 예고",
+                summary: "뉴캐슬 유나이티드가 사우디 자본을 바탕으로 이번 이적시장에서 대형 영입을 단행할 것으로 예상된다.",
+                date: "2024-01-11T09:30:00",
+                viewCount: 19234,
+                source: "인터풋볼",
+                originalUrl: "https://m.sports.naver.com/wfootball/article/312/0000567891"
+            },
+            {
+                id: 6,
+                title: "브라이튼, 놀라운 상승세로 유럽대회 진출권 경쟁",
+                summary: "브라이튼이 이번 시즌 놀라운 성과를 보이며 유럽대회 진출권 획득을 위한 치열한 경쟁에 합류했다.",
+                date: "2024-01-10T11:45:00",
+                viewCount: 6789,
+                source: "풋볼리스트",
+                originalUrl: "https://m.sports.naver.com/wfootball/article/477/0000298765"
+            }
+        ];
+
+        function showLoading() {
+            loading.style.display = 'block';
+            newsGrid.style.display = 'none';
+            noResults.style.display = 'none';
+        }
+
+        function hideLoading() {
+            loading.style.display = 'none';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / (1000 * 60));
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+            if (diffMins < 60) {
+                return `${diffMins}분 전`;
+            } else if (diffHours < 24) {
+                return `${diffHours}시간 전`;
+            } else if (diffDays < 7) {
+                return `${diffDays}일 전`;
+            } else {
+                return date.toLocaleDateString('ko-KR', {
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+        }
+
+        function formatViewCount(count) {
+            if (count >= 10000) {
+                return Math.floor(count / 1000) + 'K';
+            }
+            return count.toLocaleString();
+        }
+
+        function renderNews(newsList) {
+            if (newsList.length === 0) {
+                newsGrid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            newsGrid.style.display = 'grid';
+            noResults.style.display = 'none';
+
+            newsGrid.innerHTML = newsList.map(news => `
+                <div class="news-card" onclick="viewNewsDetail(${news.id})">
+                    <div class="news-image">
+                        ⚽ 프리미어리그
+                    </div>
+                    <div class="news-content">
+                        <div class="news-title">${news.title}</div>
+                        <div class="news-summary">${news.summary}</div>
+                        <div class="news-meta">
+                            <span class="news-date">${formatDate(news.date)}</span>
+                            <span>조회 ${formatViewCount(news.viewCount)} • ${news.source}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function sortAndFilterNews() {
+            let filtered = [...allNews];
+
+            // 검색 필터
+            if (currentSearch) {
+                filtered = filtered.filter(news => 
+                    news.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                    news.summary.toLowerCase().includes(currentSearch.toLowerCase())
+                );
+            }
+
+            // 정렬
+            if (currentSort === 'latest') {
+                filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+            } else if (currentSort === 'popular') {
+                filtered.sort((a, b) => b.viewCount - a.viewCount);
+            }
+
+            filteredNews = filtered;
+            renderNews(filteredNews);
+        }
+
+        function handleSearch() {
+            currentSearch = searchInput.value.trim();
+            sortAndFilterNews();
+        }
+
+        function handleSortChange(sortType) {
+            currentSort = sortType;
+            
+            // 탭 활성화 상태 변경
+            sortTabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.dataset.sort === sortType) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            sortAndFilterNews();
+        }
+
+        function viewNewsDetail(newsId) {
+            window.location.href = `/news/${newsId}`;
+        }
+
+        async function loadNews() {
+            showLoading();
+            
+            try {
+                // TODO: API 연동 시 주석 해제
+                // const response = await fetch(API_BASE_URL);
+                // if (!response.ok) throw new Error('뉴스를 불러올 수 없습니다.');
+                // allNews = await response.json();
+                
+                // 임시 샘플 데이터 사용
+                await new Promise(resolve => setTimeout(resolve, 1000)); // 로딩 시뮬레이션
+                allNews = sampleNews;
+                
+                sortAndFilterNews();
+            } catch (error) {
+                console.error('뉴스 로딩 실패:', error);
+                allNews = sampleNews; // 실패 시 샘플 데이터 사용
+                sortAndFilterNews();
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // 이벤트 리스너
+        searchBtn.addEventListener('click', handleSearch);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleSearch();
+            }
+        });
+        
+        sortTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                handleSortChange(tab.dataset.sort);
+            });
+        });
+
+        // 페이지 로드 시 뉴스 불러오기
+        document.addEventListener('DOMContentLoaded', loadNews);
+    </script>
+</body>
+</html>
