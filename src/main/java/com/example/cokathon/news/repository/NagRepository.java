@@ -1,7 +1,7 @@
-package com.example.cokathon.nag.repository;
+package com.example.cokathon.news.repository;
 
-import com.example.cokathon.nag.domain.Nag;
-import com.example.cokathon.nag.enums.Category;
+import com.example.cokathon.news.domain.Nag;
+import com.example.cokathon.news.enums.Category;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

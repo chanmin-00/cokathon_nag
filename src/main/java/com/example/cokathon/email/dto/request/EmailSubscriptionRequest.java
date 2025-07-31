@@ -4,7 +4,7 @@ import java.time.LocalTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.example.cokathon.nag.enums.Category;
+import com.example.cokathon.news.enums.Category;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -1,8 +1,8 @@
-package com.example.cokathon.nag.converter;
+package com.example.cokathon.news.converter;
 
-import com.example.cokathon.nag.domain.Nag;
-import com.example.cokathon.nag.dto.request.NagCreateRequest;
-import com.example.cokathon.nag.dto.response.NagListDto;
+import com.example.cokathon.news.domain.Nag;
+import com.example.cokathon.news.dto.request.NagCreateRequest;
+import com.example.cokathon.news.dto.response.NagListDto;
 
 public class NagConverter {
 

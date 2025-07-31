@@ -1,11 +1,11 @@
-package com.example.cokathon.nag.controller;
+package com.example.cokathon.news.controller;
 
 import com.example.cokathon.global.ratelimit.RateLimitService;
-import com.example.cokathon.nag.dto.request.NagCreateRequest;
-import com.example.cokathon.nag.dto.response.NagListDto;
-import com.example.cokathon.nag.enums.Category;
-import com.example.cokathon.nag.service.NagService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.cokathon.news.dto.request.NagCreateRequest;
+import com.example.cokathon.news.dto.response.NagListDto;
+import com.example.cokathon.news.enums.Category;
+import com.example.cokathon.news.service.NagService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

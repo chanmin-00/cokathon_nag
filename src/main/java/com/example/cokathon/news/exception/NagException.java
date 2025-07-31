@@ -1,4 +1,4 @@
-package com.example.cokathon.nag.exception;
+package com.example.cokathon.news.exception;
 
 import org.springframework.http.HttpStatus;
 
@@ -18,8 +18,8 @@ public class NagException extends RuntimeException {
         this.code = code;
     }
 
-    public static com.example.cokathon.nag.exception.NagException from(NagErrorCode errorCode) {
-        return new com.example.cokathon.nag.exception.NagException(errorCode.getMessage(), errorCode.getHttpStatus(), errorCode.getCode());
+    public static com.example.cokathon.news.exception.NagException from(NagErrorCode errorCode) {
+        return new com.example.cokathon.news.exception.NagException(errorCode.getMessage(), errorCode.getHttpStatus(), errorCode.getCode());
     }
 }
 

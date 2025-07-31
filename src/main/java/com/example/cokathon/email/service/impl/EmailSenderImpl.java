@@ -19,9 +19,9 @@ import com.example.cokathon.email.dto.MailHtmlSendDTO;
 import com.example.cokathon.email.exception.EmailSubscriptionException;
 import com.example.cokathon.email.repository.EmailSubscriptionRepository;
 import com.example.cokathon.email.service.EmailSender;
-import com.example.cokathon.nag.domain.Nag;
-import com.example.cokathon.nag.enums.Category;
-import com.example.cokathon.nag.repository.NagRepository;
+import com.example.cokathon.news.domain.Nag;
+import com.example.cokathon.news.enums.Category;
+import com.example.cokathon.news.repository.NagRepository;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

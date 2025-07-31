@@ -1,7 +1,7 @@
-package com.example.cokathon.nag.controller;
+package com.example.cokathon.news.controller;
 
 import com.example.cokathon.global.ratelimit.RateLimit;
-import com.example.cokathon.nag.enums.Category;
+import com.example.cokathon.news.enums.Category;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +23,7 @@ class NagControllerSimpleTest {
         
         // When
         Method createNagMethod = controllerClass.getDeclaredMethod("createNag", 
-            com.example.cokathon.nag.dto.request.NagCreateRequest.class);
+            com.example.cokathon.news.dto.request.NagCreateRequest.class);
         
         // Then
         assertThat(createNagMethod.isAnnotationPresent(RateLimit.class)).isTrue();
@@ -42,7 +42,7 @@ class NagControllerSimpleTest {
         
         // When
         Method createNagMethod = controllerClass.getDeclaredMethod("createNag", 
-            com.example.cokathon.nag.dto.request.NagCreateRequest.class);
+            com.example.cokathon.news.dto.request.NagCreateRequest.class);
         
         // Then
         assertThat(createNagMethod.isAnnotationPresent(PostMapping.class)).isTrue();
@@ -66,7 +66,7 @@ class NagControllerSimpleTest {
     void rateLimitConfiguration_IsCorrect() throws NoSuchMethodException {
         // Given
         Method createNagMethod = NagController.class.getDeclaredMethod("createNag", 
-            com.example.cokathon.nag.dto.request.NagCreateRequest.class);
+            com.example.cokathon.news.dto.request.NagCreateRequest.class);
         RateLimit rateLimit = createNagMethod.getAnnotation(RateLimit.class);
         
         // When & Then

@@ -1,6 +1,6 @@
-package com.example.cokathon.nag.domain;
+package com.example.cokathon.news.domain;
 
-import com.example.cokathon.nag.enums.Category;
+import com.example.cokathon.news.enums.Category;
 import jakarta.persistence.*;
 import lombok.*;
 

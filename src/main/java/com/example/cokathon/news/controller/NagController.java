@@ -1,12 +1,12 @@
-package com.example.cokathon.nag.controller;
+package com.example.cokathon.news.controller;
 
 import com.example.cokathon.global.dto.DataResponse;
 import com.example.cokathon.global.ratelimit.RateLimit;
-import com.example.cokathon.nag.dto.request.NagCreateRequest;
-import com.example.cokathon.nag.dto.response.NagListDto;
-import com.example.cokathon.nag.dto.response.ReportResponseDto;
-import com.example.cokathon.nag.enums.Category;
-import com.example.cokathon.nag.service.NagService;
+import com.example.cokathon.news.dto.request.NagCreateRequest;
+import com.example.cokathon.news.dto.response.NagListDto;
+import com.example.cokathon.news.dto.response.ReportResponseDto;
+import com.example.cokathon.news.enums.Category;
+import com.example.cokathon.news.service.NagService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

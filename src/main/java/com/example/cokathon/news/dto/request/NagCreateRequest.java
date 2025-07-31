@@ -1,6 +1,6 @@
-package com.example.cokathon.nag.dto.request;
+package com.example.cokathon.news.dto.request;
 
-import com.example.cokathon.nag.enums.Category;
+import com.example.cokathon.news.enums.Category;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

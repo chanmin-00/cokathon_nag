@@ -1,4 +1,4 @@
-package com.example.cokathon.nag.exception;
+package com.example.cokathon.news.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

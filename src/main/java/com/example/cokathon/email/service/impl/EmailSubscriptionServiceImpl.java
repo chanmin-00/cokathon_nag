@@ -13,7 +13,7 @@ import com.example.cokathon.email.dto.request.EmailUnsubscriptionRequest;
 import com.example.cokathon.email.exception.EmailSubscriptionException;
 import com.example.cokathon.email.repository.EmailSubscriptionRepository;
 import com.example.cokathon.email.service.EmailSubscriptionService;
-import com.example.cokathon.nag.enums.Category;
+import com.example.cokathon.news.enums.Category;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

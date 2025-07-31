@@ -1,12 +1,12 @@
-package com.example.cokathon.nag.service;
+package com.example.cokathon.news.service;
 
-import com.example.cokathon.nag.converter.NagConverter;
-import com.example.cokathon.nag.domain.Nag;
-import com.example.cokathon.nag.dto.request.NagCreateRequest;
-import com.example.cokathon.nag.dto.response.NagListDto;
-import com.example.cokathon.nag.enums.Category;
-import com.example.cokathon.nag.exception.NagException;
-import com.example.cokathon.nag.repository.NagRepository;
+import com.example.cokathon.news.converter.NagConverter;
+import com.example.cokathon.news.domain.Nag;
+import com.example.cokathon.news.dto.request.NagCreateRequest;
+import com.example.cokathon.news.dto.response.NagListDto;
+import com.example.cokathon.news.enums.Category;
+import com.example.cokathon.news.exception.NagException;
+import com.example.cokathon.news.repository.NagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.cokathon.nag.exception.NagErrorCode.NAG_DELETED;
-import static com.example.cokathon.nag.exception.NagErrorCode.NAG_NOT_FOUND;
+import static com.example.cokathon.news.exception.NagErrorCode.NAG_DELETED;
+import static com.example.cokathon.news.exception.NagErrorCode.NAG_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor

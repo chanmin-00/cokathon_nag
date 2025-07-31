@@ -3,7 +3,7 @@ package com.example.cokathon.email.domain;
 import java.time.LocalTime;
 
 import com.example.cokathon.global.entity.BaseEntity;
-import com.example.cokathon.nag.enums.Category;
+import com.example.cokathon.news.enums.Category;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

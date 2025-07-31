@@ -3,7 +3,7 @@ package com.example.cokathon.global.exception;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.cokathon.nag.exception.NagException;
+import com.example.cokathon.news.exception.NagException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

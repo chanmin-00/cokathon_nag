@@ -1,4 +1,4 @@
-package com.example.cokathon.nag.enums;
+package com.example.cokathon.news.enums;
 
 public enum Category {
 	// 새로운 시작
