@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>뉴스 상세 - Premier League News</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #38003c 0%, #00ff87 100%);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .article {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            height: calc(100vh - 200px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-header {
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            flex-shrink: 0;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .article-source {
+            background: #38003c;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .article-date {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .article-title {
+            font-size: 20px;
+            font-weight: bold;
+            line-height: 1.4;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .article-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .original-link-btn {
+            padding: 8px 16px;
+            background: #f8f9fa;
+            color: #666;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .original-link-btn:hover {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .refresh-btn {
+            padding: 8px 12px;
+            background: #38003c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background: #2d0030;
+        }
+
+        .article-iframe-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .iframe-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .iframe-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .iframe-error {
+            text-align: center;
+            color: #666;
+        }
+
+        .iframe-error h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .fallback-content {
+            padding: 30px;
+            text-align: center;
+            color: #666;
+        }
+
+        .fallback-content h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .related-news {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .related-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .related-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+            cursor: pointer;
+        }
+
+        .related-item:hover {
+            background: #f8f9fa;
+        }
+
+        .related-image {
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(45deg, #38003c, #00ff87);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .related-content {
+            flex: 1;
+        }
+
+        .related-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .related-item-date {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #38003c;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .error h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                max-width: 95%;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .article-header {
+                padding: 15px;
+            }
+            
+            .article-title {
+                font-size: 18px;
+            }
+            
+            .article-actions {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .original-link-btn,
+            .refresh-btn {
+                font-size: 11px;
+                padding: 6px 12px;
+            }
+            
+            .related-item {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .related-image {
+                width: 100%;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <button class="back-btn" onclick="goBack()">← 뒤로</button>
+            <div class="header-title">뉴스 상세</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>뉴스를 불러오는 중...</p>
+        </div>
+
+        <div class="error" id="error" style="display: none;">
+            <h3>뉴스를 불러올 수 없습니다</h3>
+            <p>잠시 후 다시 시도해주세요.</p>
+        </div>
+
+        <div id="content" style="display: none;">
+            <article class="article" id="article">
+                <div class="article-header">
+                    <div class="article-meta">
+                        <span class="article-source" id="articleSource"></span>
+                        <span class="article-date" id="articleDate"></span>
+                    </div>
+                    <h1 class="article-title" id="articleTitle"></h1>
+                    <div class="article-actions">
+                        <a href="#" id="originalLink" class="original-link-btn" target="_blank" rel="noopener">원본 보기</a>
+                        <button id="refreshBtn" class="refresh-btn">새로고침</button>
+                    </div>
+                </div>
+                <div class="article-iframe-container">
+                    <iframe id="articleIframe" class="article-iframe" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+                    <div class="iframe-overlay" id="iframeOverlay">
+                        <div class="iframe-loading" id="iframeLoading">
+                            <div class="spinner"></div>
+                            <p>뉴스를 불러오는 중...</p>
+                        </div>
+                        <div class="iframe-error" id="iframeError" style="display: none;">
+                            <h3>뉴스를 불러올 수 없습니다</h3>
+                            <p>원본 링크를 통해 확인해주세요.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <div class="related-news">
+                <h2 class="related-title">관련 뉴스</h2>
+                <div id="relatedNews"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = '/api/news';
+        
+        // 샘플 데이터 (네이버 뉴스 링크 포함)
+        const sampleNews = {
+            1: {
+                id: 1,
+                title: "손흥민, 프리미어리그 이번 시즌 10골 달성",
+                date: "2024-01-15T10:30:00",
+                source: "스포츠조선",
+                originalUrl: "https://m.sports.naver.com/wfootball/article/343/0000134285"
+            },
+            2: {
+                id: 2,
+                title: "맨시티, 리버풀과의 빅매치에서 2-1 승리",
+                date: "2024-01-14T18:45:00",
+                source: "연합뉴스",
+                originalUrl: "https://m.sports.naver.com/wfootball/article/001/0014892134"
+            },
+            3: {
+                id: 3,
+                title: "아스날, 겨울 이적시장에서 미드필더 영입 추진",
+                date: "2024-01-13T14:20:00",
+                source: "OSEN",
+                originalUrl: "https://m.sports.naver.com/wfootball/article/109/0004983456"
+            }
+        };
+
+        const relatedNewsSample = [
+            {
+                id: 4,
+                title: "첼시 감독 교체설 부상, 클럽 측은 부인",
+                date: "2024-01-12T16:15:00"
+            },
+            {
+                id: 5,
+                title: "뉴캐슬, 사우디 자본으로 대형 영입 예고",
+                date: "2024-01-11T09:30:00"
+            },
+            {
+                id: 6,
+                title: "브라이튼, 놀라운 상승세로 유럽대회 진출권 경쟁",
+                date: "2024-01-10T11:45:00"
+            }
+        ];
+
+        function getNewsIdFromUrl() {
+            const pathParts = window.location.pathname.split('/');
+            return pathParts[pathParts.length - 1];
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / (1000 * 60));
+            const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+            const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+            if (diffMins < 60) {
+                return `${diffMins}분 전`;
+            } else if (diffHours < 24) {
+                return `${diffHours}시간 전`;
+            } else if (diffDays < 7) {
+                return `${diffDays}일 전`;
+            } else {
+                return date.toLocaleDateString('ko-KR', {
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
+        }
+
+        function renderNewsDetail(news) {
+            document.getElementById('articleSource').textContent = news.source;
+            document.getElementById('articleDate').textContent = formatDate(news.date);
+            document.getElementById('articleTitle').textContent = news.title;
+            document.getElementById('originalLink').href = news.originalUrl;
+            
+            loadNewsInIframe(news.originalUrl);
+            
+            document.title = `${news.title} - Premier League News`;
+        }
+
+        function loadNewsInIframe(url) {
+            const iframe = document.getElementById('articleIframe');
+            const overlay = document.getElementById('iframeOverlay');
+            const loading = document.getElementById('iframeLoading');
+            const error = document.getElementById('iframeError');
+            
+            // 초기 상태 설정
+            overlay.style.display = 'flex';
+            loading.style.display = 'flex';
+            error.style.display = 'none';
+            
+            // iframe 로드 이벤트 핸들러
+            iframe.onload = function() {
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 1000);
+            };
+            
+            iframe.onerror = function() {
+                loading.style.display = 'none';
+                error.style.display = 'block';
+            };
+            
+            // iframe src 설정
+            iframe.src = url;
+            
+            // 5초 후에도 로딩이 끝나지 않으면 에러 표시
+            setTimeout(() => {
+                if (overlay.style.display !== 'none') {
+                    loading.style.display = 'none';
+                    error.style.display = 'block';
+                }
+            }, 5000);
+        }
+
+        function refreshIframe() {
+            const iframe = document.getElementById('articleIframe');
+            const currentSrc = iframe.src;
+            iframe.src = '';
+            setTimeout(() => {
+                loadNewsInIframe(currentSrc);
+            }, 100);
+        }
+
+        function renderRelatedNews(relatedNews) {
+            const relatedContainer = document.getElementById('relatedNews');
+            
+            relatedContainer.innerHTML = relatedNews.map(news => `
+                <div class="related-item" onclick="viewNewsDetail(${news.id})">
+                    <div class="related-image">⚽</div>
+                    <div class="related-content">
+                        <div class="related-item-title">${news.title}</div>
+                        <div class="related-item-date">${formatDate(news.date)}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function viewNewsDetail(newsId) {
+            window.location.href = `/news/${newsId}`;
+        }
+
+        function goBack() {
+            if (document.referrer && document.referrer.includes(window.location.origin)) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        async function loadNewsDetail() {
+            const newsId = getNewsIdFromUrl();
+            
+            try {
+                // TODO: API 연동 시 주석 해제
+                // const response = await fetch(`${API_BASE_URL}/${newsId}`);
+                // if (!response.ok) throw new Error('뉴스를 불러올 수 없습니다.');
+                // const news = await response.json();
+                
+                // 임시 샘플 데이터 사용
+                await new Promise(resolve => setTimeout(resolve, 500)); // 로딩 시뮬레이션
+                const news = sampleNews[newsId];
+                
+                if (!news) {
+                    throw new Error('뉴스를 찾을 수 없습니다.');
+                }
+                
+                renderNewsDetail(news);
+                renderRelatedNews(relatedNewsSample);
+                
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+                
+                // 새로고침 버튼 이벤트 리스너 추가
+                document.getElementById('refreshBtn').addEventListener('click', refreshIframe);
+                
+            } catch (error) {
+                console.error('뉴스 로딩 실패:', error);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'block';
+            }
+        }
+
+        // 페이지 로드 시 뉴스 상세 정보 불러오기
+        document.addEventListener('DOMContentLoaded', loadNewsDetail);
+    </script>
+</body>
+</html>
