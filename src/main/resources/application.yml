@@ -2,7 +2,7 @@ spring:
   config:
     import: optional:file:.env[.properties]  # .env import
   application:
-    name: cokaton
+    name: bojmate
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:local}  # ?? ????? 'local'? ??
   servlet:
@@ -29,6 +29,15 @@ spring:
 
 jwt:
   secret: ${JWT_SECRET_KEY}
+
+naver:
+  client:
+    id: ${NAVER_CLIENT_ID}
+    secret: ${NAVER_CLIENT_SECRET}
+
+news:
+  scheduler:
+    enabled: ${NEWS_SCHEDULER_ENABLED:true}
 
 springdoc:
   swagger-ui:
